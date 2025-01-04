@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Growcery</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .profile-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .profile-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .profile-details {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .profile-details p {
+            margin: 10px 0;
+        }
+
+        .logout-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.1em;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logout-btn:hover {
+            background-color: #e53935;
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="homepage.php">Home</a>
+        <a href="products.php">Products</a>
+        <a href="About.html">About Us</a>
+        <a href="Contact.html">Contact Us</a>
+        <a href="cart.php">Cart</a>
+        <a href="profile.php">Profile</a>
+        <a href="displayorders.php">Orders</a>
+    </div>
+
+    <div class="profile-container">
+        <h1 class="profile-title">User Profile</h1>
+
+        <div class="profile-details" style="text-align: center;">
+            <img id="Profile-img" src="https://via.placeholder.com/150" alt="Profile Image" style="text-align:center; width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+            <p><strong>Name:</strong><span id="user-name"></span></p>
+            <p><strong>Email:</strong><span id="user-email"></span></p>
+            <p><strong>DOB:</strong><span id="dob"></span></p>
+            <p><strong>Mobile:</strong><span id="mobile"></span></p>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Growcery. All rights reserved.</p>
+        <p>Follow us on social media: Facebook | Twitter | Instagram</p>
+    </div>
+    <script>
+           function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+        const email = getQueryParam('email');
+        if (!email) {
+            document.getElementById("profile-container").innerHTML = 'No email provided in the URL!';
+        } else {
+            fetch(`loadprofile.php?email=${email}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('user-name').textContent = `${data.user.name}`;
+                        document.getElementById('user-email').textContent = `${data.user.email}`;
+                        document.getElementById('dob').textContent = `${data.user.dob}`;
+                        document.getElementById('mobile').textContent = `${data.user.mobile}`;
+                        if (data.user.profile_image) {
+                            const profileImage = document.getElementById("Profile-img");
+                            profileImage.src = data.user.profile_image;
+                        }
+                    } else {
+                        document.getElementById('profile-container').innerHTML = data.message;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user details:', error);
+                    document.getElementById("profile-container").innerHTML = 'An error occurred!';
+                });
+        }
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'logout.php';
+        }
+    </script>
+</body>
+
+</html>

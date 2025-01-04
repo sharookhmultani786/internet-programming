@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Growcery</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f3;
+        }
+    
+        .navbar {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+    
+        .navbar a:hover {
+            background: #4a6078;
+            color: #fff;
+            border-radius: 5px;
+        }
+    
+        .checkout-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+    
+        .checkout-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2d3e50;
+            font-weight: 700;
+        }
+    
+        .checkout-section {
+            margin-bottom: 20px;
+        }
+    
+        .checkout-section h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #2d3e50;
+        }
+    
+        .form-group {
+            margin-bottom: 20px;
+        }
+    
+        .form-group label {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+        }
+    
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+    
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: #4a6078;
+            box-shadow: 0 0 5px rgba(74, 96, 120, 0.5);
+        }
+    
+        .order-summary {
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        .order-summary h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #2d3e50;
+        }
+    
+        .order-summary table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+    
+        .order-summary th, .order-summary td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+    
+        .order-summary th {
+            background-color: #2d3e50;
+            color: white;
+        }
+    
+        .order-summary .total {
+            font-weight: bold;
+            font-size: 1.2em;
+            padding-top: 10px;
+            color: #27ae60;
+        }
+    
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2em;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+    
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+    
+        .footer {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-container {
+                padding: 15px;
+            }
+    
+            .order-summary {
+                padding: 15px;
+            }
+        }
+    </style>    
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="homepage.php">Home</a>
+        <a href="products.php">Products</a>
+        <a href="About.html">About Us</a>
+        <a href="Contact.html">Contact Us</a>
+        <a href="cart.php">Cart</a>
+        <a href="profile.php">Profile</a>
+        <a href="displayorders.php">Orders</a>
+    </div>
+
+    <div class="checkout-container">
+        <h1 class="checkout-title">Checkout</h1>
+
+        <div class="checkout-section">
+            <h3>Billing Information</h3>
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="Mobile">Mobile</label>
+                <input type="text" id="bmobile" placeholder="Enter your Mobile Number" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Billing Address</label>
+                <textarea id="address" placeholder="Enter your billing address" required></textarea>
+            </div>
+        </div>
+
+        <div class="checkout-section">
+            <h3>Shipping Information</h3>
+            <div class="form-group">
+                <label for="shippingAddress">Shipping Address</label>
+                <textarea id="shippingAddress" placeholder="Enter your shipping address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="Mobile">Email</label>
+                <input type="mobile" id="smobile" placeholder="Enter your Mobile Number" required>
+            </div>
+            <div class="form-group">
+                <label for="shippingMethod">Shipping Method</label>
+                <select id="shippingMethod">
+                    <option value="standard">Standard Shipping</option>
+                    <option value="express">Express Shipping</option>
+                    <option value="overnight">Overnight Shipping</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTable">
+                </tbody>
+            </table>
+            <div class="total">
+                <p id="totalPrice">Total Price: ₹0.00</p>
+            </div>
+        </div>
+
+        <button class="checkout-btn" onclick="processCheckout()">Proceed to Payment</button>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Growcery. All rights reserved.</p>
+        <p>Follow us on social media: Facebook | Twitter | Instagram</p>
+    </div>
+
+    <script>
+        function loadOrderSummary() {
+            const orderTable = document.getElementById('orderTable');
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            let totalPrice = 0;
+
+            orderTable.innerHTML = '';
+
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>₹${item.price.toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${(item.price * item.quantity).toFixed(2)}</td>
+                `;
+                orderTable.appendChild(row);
+                totalPrice += item.price * item.quantity;
+            });
+
+            document.getElementById('totalPrice').innerText = `Total Price: ₹${totalPrice.toFixed(2)}`;
+        }
+
+        function processCheckout() {
+            const billingInfo = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                bmobile: document.getElementById('bmobile').value
+            };
+
+            const shippingInfo = {
+                address: document.getElementById('shippingAddress').value,
+                smobile:document.getElementById('smobile').value,
+                method: document.getElementById('shippingMethod').value
+            };
+
+            sessionStorage.setItem('billingInfo', JSON.stringify(billingInfo));
+            sessionStorage.setItem('shippingInfo', JSON.stringify(shippingInfo));
+            alert("Your order has been submitted! Proceeding to payment...");
+            window.location.href = "payment.php";
+        }
+        window.onload = loadOrderSummary;
+    </script>
+</body>
+</html>

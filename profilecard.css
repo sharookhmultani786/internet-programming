@@ -1,0 +1,47 @@
+body{
+    font-family:sans-serif;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+    background-color: beige;
+}
+.profile-card
+{
+    text-align: center;
+    padding:20px;
+    width:300px;
+    border:none;
+    box-shadow:0px 4px 10px black;
+    border-radius:10px;
+    width:350px;
+    transition: transform 0.3s ease;
+    background-color: azure;
+}
+.profile-card:hover{transform:scale(1.23);}
+.img{
+    border-radius:50%;
+    border-color:aqua;
+    object-fit: cover;
+    width:150px;height:150px;
+}
+.links{
+    display:flex;
+    justify-content: space-between;
+}
+a{
+    background-color: blue;
+    color:azure;
+    width:80px;
+    border-radius: 5px;
+    padding:10px;
+    text-decoration:none;
+    text-align:center;
+    transition:background-color 0.3s ease;
+    transition:color ease;
+}
+a:hover
+{
+    background-color: aqua;
+    color:red;
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #e96443, #904e95);
+            color: #fff;
+        }
+
+        .nav {
+            background-color: #333;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .nav a:hover {
+            background-color: skyblue;
+            transform: scale(1.1);
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: rgb(255, 177, 177);
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 20px;
+            text-align: center;
+            padding: 20px;
+            width: 500px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            color:darkblue;
+        }
+
+        .card img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .contact-details {
+            margin-top: 10px;
+        }
+
+        .contact-details p {
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <a href="homepage.php">Home</a>
+        <a href="About.html">About Us</a>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <img src="sathwik.jpg" alt="Your Photo">
+            <h3>Sathwik Tallapaka</h3>
+            <h2>Project Designer</h2>
+            <div class="contact-details">
+                <p><strong>Email:</strong><span style="color:blueviolet;font-family:'Times New Roman', Times, serif;font-weight:bold;font-size:20px;">sathwik5tallapaka@gmail.com</span></p>
+                <p><strong>Mobile:</strong><span style="color:blueviolet;font-family:'Times New Roman', Times, serif;font-weight:bold;font-size:20px;">+919100131975</span></p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="sharukh.jpg" alt="Team Member Photo">
+            <h3>Shaik Sharukh Khan</h3>
+            <h2>Project Manager</h2>
+            <div class="contact-details">
+                <p><strong>Email:</strong><span style="color:blueviolet;font-family:'Times New Roman', Times, serif;font-weight:bold;font-size:20px;">sharook9988@gmail.com</span></p>
+                <p><strong>Mobile:</strong><span style="color:blueviolet;font-family:'Times New Roman', Times, serif;font-weight:bold;font-size:20px;">+917981996481</span></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Growcery. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

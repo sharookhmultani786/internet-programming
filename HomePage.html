@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growcery - Online Grocery Store</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9f4f5;
+        }
+    
+        .navbar {
+            background: linear-gradient(90deg, #00a8cc, #2f89fc);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+    
+        .navbar a:hover {
+            background: #2f89fc;
+            color: #fff;
+            border-radius: 5px;
+        }
+    
+        .banner {
+            width: 100%;
+            height: 300px;
+            background-image: url('banner.jpg');
+            background-size:cover;
+            background-repeat:no-repeat;
+            background-position: bottom;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .banner h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    
+        
+        .categories {
+            display: flex;
+            justify-content: space-around;
+            padding: 50px 0;
+            background-color: #f4f4f4;
+        }
+    
+        .category {
+            text-align: center;
+            padding: 20px;
+            width: 20%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        .category img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+        }
+    
+        .category h3 {
+            font-size: 1.2em;
+            margin: 10px 0;
+            color: #00a8cc;
+        }
+    
+        
+        .featured-products {
+            padding: 50px;
+            background-color: #e9f4f5;
+        }
+    
+        .product-cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+    
+        .product-card {
+            background-color: white;
+            padding: 20px;
+            width: 250px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    
+        .product-card h4 {
+            margin: 10px 0;
+            font-size: 1.3em;
+        }
+    
+        .product-card p {
+            color: #555;
+        }
+    
+        .product-card button {
+            background-color: #00a8cc;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+    
+        .product-card button:hover {
+            background-color: #007bb5;
+        }
+    
+        
+        .footer {
+            background: linear-gradient(90deg, #00a8cc, #2f89fc);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        .logout-btn{background-color: red; margin:6px;padding:5px;border-radius:10px;margin-left:700px;}
+        
+        @media (max-width: 768px) {
+            .categories {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .category {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+    
+            .product-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+      
+    
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="homepage.php">Home</a>
+        <a href="products.php">Products</a>
+        <a href="About.html">About Us</a>
+        <a href="Contact.html">Contact Us</a>
+        <a href="cart.php">Cart</a>
+        <a href="profile.php">Profile</a>
+        <a href="displayorders.php">Orders</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="banner">
+        <h1 id="wel" style="color:rgb(48, 15, 234);"></h1>
+        <p style="color:black;font-weight: bold;">Your one-stop shop for fresh groceries online</p>
+    </div>
+
+    <div class="categories" style="background-color: rgb(131, 131, 215);">
+        <div class="category">
+            <img src="fruit.jpg" alt="Fruits">
+            <h3>Fruits</h3>
+        </div>
+        <div class="category">
+            <img src="vegetable.jpg" alt="Vegetables">
+            <h3>Vegetables</h3>
+        </div>
+        <div class="category">
+            <img src="dairy.jpg" alt="Dairy">
+            <h3>Dairy</h3>
+        </div>
+        <div class="category">
+            <img src="bakery.jpg" alt="Bakery">
+            <h3>Bakery</h3>
+        </div>
+    </div>
+
+    <div class="featured-products" style="background-color:rgb(228, 162, 240);">
+        <h2>Featured Products</h2>
+        <div class="product-cards">
+            <div class="product-card">
+                <img src="apple.jpg" alt="Product 1">
+                <h4>Apple</h4>
+                <p>₹45.00 per kg</p>
+                <button onclick="addToCart(this,'Apple',45.00)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="banana.jpg" alt="Product 2">
+                <h4>Banana</h4>
+                <p>₹36.00 per bunch</p>
+                <button onclick="addToCart(this,'Banana',36.00)">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="carrot.jpg" alt="Product 3">
+                <h4>Carrot</h4>
+                <p>₹45.00 per kg</p>
+                <button onclick="addToCart(this,'Carrot',45.00)">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Growcery. All rights reserved.</p>
+        <p>Follow us on social media: Facebook | Twitter | Instagram</p>
+    </div>
+
+    <script>
+       function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const userName = getQueryParam('user');
+        const userEmail = getQueryParam('email');
+
+        if (userName) {
+            const decodedUserName = decodeURIComponent(userName);
+            document.getElementById('wel').textContent = `Welcome, ${decodedUserName}!`;
+        } else {
+            alert("Not Authorized without Login");
+            window.location.href='login.php';
+        }
+        function addToCart(button,productName, productPrice) {
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+    let productIndex = cart.findIndex(item => item.name === productName);
+
+    if (productIndex !== -1) {
+        cart[productIndex].quantity += 1;
+    } else {
+        let product = {
+            name: productName,
+            price: productPrice,
+            quantity: 1
+        };
+        cart.push(product);
+    }
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    button.disabled=true;
+    button.innerHTML='✔';
+    setTimeout(()=>{
+        button.innerHTML='Add to Cart';
+        button.disabled=false;
+    },2000);
+}
+function logout() {
+            sessionStorage.clear();
+            window.location.href = 'logout.php';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Growcery</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: #eef2f3;
+        }
+    
+        .navbar {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+    
+        .navbar a:hover {
+            background: #4a6078;
+            color: #fff;
+            border-radius: 5px;
+        }
+    
+        .orders-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+    
+        .orders-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2d3e50;
+            font-weight: 700;
+        }
+    
+        .order-item {
+            display:flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.1em;
+        }
+    
+        .order-item:last-child {
+            border-bottom: none;
+        }
+    
+        .order-item p {
+            margin: 0;
+        }
+    
+        .order-status {
+            font-weight: bold;
+            color: #f39c12;
+        }
+    
+        .order-total {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin:auto;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        .logout-btn{background-color: red; margin:6px;padding:5px;border-radius:10px;margin-left:700px;}
+        @media (max-width: 768px) {
+            .orders-container {
+                margin: 20px;
+                padding: 30px;
+            }
+    
+            .orders-title {
+                font-size: 2em;
+            }
+        }
+        table{border-collapse:collapse;width:300px;}
+        th,td{border:3px dotted rgb(112, 203, 47);text-align:center;width:30px;}
+        th{background-color: rgb(11, 66, 90,0.8);color:#eee60d}
+        td{background-color: rgba(194, 234, 213, 0.1);color:rgb(8, 131, 255);}
+    </style>
+    
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="homepage.php">Home</a>
+        <a href="products.php">Products</a>
+        <a href="About.html">About Us</a>
+        <a href="Contact.html">Contact Us</a>
+        <a href="cart.php">Cart</a>
+        <a href="profile.php">Profile</a>
+        <a href="displayorders.php">My Orders</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="orders-container">
+        <h1 class="orders-title">My Orders</h1>
+
+        <div id="orders-list"></div>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Growcery. All rights reserved.</p>
+        <p>Follow us on social media: Facebook | Twitter | Instagram</p>
+    </div>
+
+    <script>
+        function go(){window.location.href='products.php';}
+        function fetchOrders() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+
+            if (!email) {
+                alert("Email is required.");
+                return;
+            }
+
+            fetch(`orders.php?email=${email}`)
+                .then(response => response.json())
+                .then(data => {
+                    const ordersList = document.getElementById('orders-list');
+
+                    if (data.error) {
+                        ordersList.innerHTML = `<p>${data.error}</p>`;
+                    } else if (data.length === 0) {
+                        ordersList.innerHTML = `<center><p>Cart is Empty</p><br><button type='submit' onclick="go()" style='background-color:red;'>Shop Now</button><center>`;
+                    } else {
+                        let count=0;
+                        data.forEach(order => {
+                            count+=1;
+                            const orderItem = document.createElement('div');
+                            orderItem.classList.add('order-item');
+                            let billinfo=JSON.parse(order.billing_info);
+                            let totalPrice=0;
+                            let cartProducts=JSON.parse(order.cart_products);
+                            cartProducts.forEach(s=>{totalPrice+=s.price*s.quantity});
+                            orderItem.innerHTML = `
+                                <div>
+                                    <p><strong>Order ID:</strong> #${order.id}</p>
+                                    <p><strong>Date:</strong> ${order.created_at}</p>
+                                    <p><strong>Name:</strong> ${billinfo.fullName}</p>
+                                    <p><strong>Address:</strong> ${billinfo.address}</p>
+                                    <p><strong>Mobile:</strong> ${billinfo.bmobile}</p>
+                                    <button id=${order.id} onclick='cancelorder(this.id)' type="submit" style="padding:5px;background-color:red;text-decoration:none;font-family: 'Poppins', Arial, sans-serif;color:white;">Cancel</button>
+                                </div>
+                                <div class="order-status" id="d2">
+                                    <p style="color:blue;">Status: <span id="status${order.id}" style="color:green;">Active</span></p>
+                                    <p style="color:blue;">Payment-Method: <span style="color:red;">${order.payment_method}</span></p>
+                                    <p class="order-total">Amount : <span style="color:magenta;">₹${parseFloat(totalPrice).toFixed(2)}</span></p>
+                                    <table id="t${count}"><p style="color:darkblue;text-align:center;">Items</p><thead><th>Name</th><th>Quanity</th><th>Price</th><th>Total</th></thead></table>
+                                </div>
+                            `;
+                            const tabbody=document.createElement('tbody');
+                            cartProducts.forEach(s=>{
+                                const tabrow=document.createElement('tr');
+                                const tabdata1=document.createElement('td');
+                                const tabdata2=document.createElement('td');
+                                const tabdata3=document.createElement('td');
+                                const tabdata4=document.createElement('td');
+                                tabdata1.innerHTML=`<td>${s.name}</td>`
+                                tabdata2.innerHTML=`<td>${s.quantity}</td>`
+                                tabdata3.innerHTML=`<td>${s.price}.00</td>`
+                                tabdata4.innerHTML=`<td>${s.price*s.quantity}.00</td>`
+                                tabrow.appendChild(tabdata1);
+                                tabrow.appendChild(tabdata2);
+                                tabrow.appendChild(tabdata3);
+                                tabrow.appendChild(tabdata4);
+                                tabbody.appendChild(tabrow);
+                            });
+                            ordersList.appendChild(orderItem);
+                            const tab=document.getElementById(`t${count}`);
+                            tab.appendChild(tabbody);
+                            status(order.id);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching orders:', error);
+                    document.getElementById('orders-list').innerHTML = "<p>Failed to load orders.</p>";
+                });
+        }
+        function cancelorder(num)
+        {
+            let numid=parseInt(num);
+            fetch(`cancelorder.php?id=${numid}`).then(response=>response.text()).then(data=>{alert(data);});
+            window.location.href="displayorders.php";
+        }
+        function status(num)
+        {
+            let numid=parseInt(num);
+            fetch(`cancelorder.php?status=${numid}`).then(response=>response.text()).then(data=>{
+                if(data=='fail')
+            {
+                const btn=document.getElementById(num);
+                btn.style.backgroundColor='green';
+                btn.onclick=redirecttoproduct;
+                btn.innerHTML="Reorder";
+                let stat=document.getElementById("status"+numid);
+                stat.innerText="Cancelled";
+                stat.style.color="red";
+            }
+            });
+        }
+        function redirecttoproduct(){window.location.href="products.php";}
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'logout.php';
+        }
+        window.onload = fetchOrders;
+    </script>
+</body>
+
+</html>

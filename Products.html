@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing - Growcery</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image:url("products.jpg");
+            background-attachment: fixed;
+            background-repeat: none;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .search-filter {
+            display: flex;
+            justify-content: space-between;
+            position:relative;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .search-filter input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-filter select {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            padding: 20px;
+            width: 250px;
+            margin:20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-card h4 {
+            margin: 10px 0;
+            font-size: 1.3em;
+        }
+
+        .product-card p {
+            color: #555;
+        }
+
+        .product-card button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .product-card button:hover {
+            background-color: #45a049;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .added
+        {
+            background-color: red;
+        }
+        .logout-btn{background-color: red; margin:6px;padding:5px;border-radius:10px;margin-left:700px;}
+        @media (max-width: 768px) {
+            .search-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-filter input[type="text"],
+            .search-filter select {
+                width: 80%;
+                margin: 10px 0;
+            }
+
+            .product-list {
+                justify-content: center;
+            }
+
+            .product-card {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="homepage.php">Home</a>
+        <a href="products.php">Products</a>
+        <a href="About.html">About Us</a>
+        <a href="Contact.html">Contact Us</a>
+        <a href="cart.php">Cart</a>
+        <a href="profile.php">Profile</a>
+        <a href="displayorders.php">Orders</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="search-filter">
+        <input type="text" id="searchBar" placeholder="Search for products..." onkeyup="filterProducts()">
+        <select id="categoryFilter" onchange="filterProducts()">
+            <option value="">Select Category</option>
+            <option value="fruits">Fruits</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="dairy">Dairy</option>
+            <option value="bakery">Bakery</option>
+            <option value="spices">Spices</option>
+            <option value="pulses">Pulses</option>
+            <option value="flour">Flour</option>
+            <option value="rice">Rice</option>
+            <option value="oil">Oil</option>
+        </select>
+    </div>
+
+    <div class="product-list" id="productList">
+        <div class="product-card" data-category="fruits">
+            <img src="apple.jpg" alt="Apple">
+            <h4>Apple</h4>
+            <p>₹120.00 per kg</p>
+            <button onclick="addToCart(this,'Apple',120.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="banana.jpg" alt="Banana">
+            <h4>Banana</h4>
+            <p>₹36.00 per bunch</p>
+            <button onclick="addToCart(this,'Banana',36.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="carrot.jpg" alt="Carrot">
+            <h4>Carrot</h4>
+            <p>₹45.00 per kg</p>
+            <button onclick="addToCart(this,'Carrot',45.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="dairy">
+            <img src="milk.jpg" alt="Milk">
+            <h4>Milk</h4>
+            <p>₹35.00 per liter</p>
+            <button onclick="addToCart(this,'Milk',35.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="bakery">
+            <img src="bread.jpg" alt="Bread">
+            <h4>Whole Wheat Bread</h4>
+            <p>₹25.00 per loaf</p>
+            <button onclick="addToCart(this,'Whole Wheat Bread',25.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="pulses">
+            <img src="toor.jpg" alt="toordal">
+            <h4>Toor Dal</h4>
+            <p>₹140.00 per kg</p>
+            <button onclick="addToCart(this,'Toor Dal',140.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="pulses">
+            <img src="chana.jpg" alt="chanadal">
+            <h4>Chana Dal</h4>
+            <p>₹120.00 per kg</p>
+            <button onclick="addToCart(this,'Chana Dal',140.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="tomato.jpg" alt="Tomatoes">
+            <h4>Tomatoes</h4>
+            <p>₹50.00 per kg</p>
+            <button onclick="addToCart(this,'Tomatoes',140.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="capsicum.jpg" alt="Pulses">
+            <h4>Capsicum</h4>
+            <p>₹60.00 per kg</p>
+            <button onclick="addToCart(this,'Capsicum',140.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="bajjichilli.jpg" alt="bajjichilli">
+            <h4>Bajji Chilli</h4>
+            <p>₹45.00 per kg</p>
+            <button onclick="addToCart(this,'Bajji Chilli',45.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="potato.jpg" alt="potato">
+            <h4>Potatoes</h4>
+            <p>₹50.00 per kg</p>
+            <button onclick="addToCart(this,'Potatoes',50.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="dairy">
+            <img src="panner.jpg" alt="panner">
+            <h4>Panner</h4>
+            <p>₹150.00 per 900ml</p>
+            <button onclick="addToCart(this,'Panner',150.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="vegetables">
+            <img src="onion.jpg" alt="onion">
+            <h4>Onions</h4>
+            <p>₹60.00 per kg</p>
+            <button onclick="addToCart(this,'Onions',60.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="spices">
+            <img src="redchilli.jpg" alt="onion">
+            <h4>Red Chilli</h4>
+            <p>₹180.00 per kg</p>
+            <button onclick="addToCart(this,'Red Chilli',180.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="bakery">
+            <img src="eggs.jpg" alt="eggs">
+            <h4>Eggs</h4>
+            <p>₹84.00 per dozen</p>
+            <button onclick="addToCart(this,'Eggs',84.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="oranges.jpg" alt="oranges">
+            <h4>Oranges</h4>
+            <p>₹90.00 per kg</p>
+            <button onclick="addToCart(this,'Oranges',90.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="fruits">
+            <img src="grapes.jpg" alt="grapes">
+            <h4>Grapes</h4>
+            <p>₹80.00 per kg</p>
+            <button onclick="addToCart(this,'Grapes',80.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="spices">
+            <img src="salt.jpg" alt="salt">
+            <h4>Salt</h4>
+            <p>₹25.00 per kg</p>
+            <button onclick="addToCart(this,'Salt',25.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="oil">
+            <img src="oil.jpg" alt="oil">
+            <h4>Oil</h4>
+            <p>₹125.00 per Litre</p>
+            <button onclick="addToCart(this,'Oil',125.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="oil">
+            <img src="hairoil.jpg" alt="oil">
+            <h4>Hair Oil</h4>
+            <p>₹195.00 per Litre</p>
+            <button onclick="addToCart(this,'Hair Oil',195.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="rice">
+            <img src="basmati.jpg" alt="basmati">
+            <h4>Basmati Rice</h4>
+            <p>₹95.00 per kg</p>
+            <button onclick="addToCart(this,'Basmati Rice',95.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="spices">
+            <img src="sugar.jpg" alt="basmati">
+            <h4>Sugar</h4>
+            <p>₹45.00 per kg</p>
+            <button onclick="addToCart(this,'Sugar',45.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="flour">
+            <img src="besan.jpg" alt="basmati">
+            <h4>Besan Flour</h4>
+            <p>₹75.00 per kg</p>
+            <button onclick="addToCart(this,'Besan Flour',75.00)">Add to Cart</button>
+        </div>
+        <div class="product-card" data-category="flour">
+            <img src="aashirvaad.jpg" alt="basmati">
+            <h4>Wheat Flour</h4>
+            <p>₹59.00 per kg</p>
+            <button onclick="addToCart(this,'Wheat Flour',59.00)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Growcery. All rights reserved.</p>
+        <p>Follow us on social media: Facebook | Twitter | Instagram</p>
+    </div>
+
+    <script>
+        function filterProducts() {
+            var searchValue = document.getElementById('searchBar').value.toLowerCase();
+            var categoryValue = document.getElementById('categoryFilter').value.toLowerCase();
+            var products = document.getElementsByClassName('product-card');
+
+            for (var i = 0; i < products.length; i++) {
+                var productName = products[i].getElementsByTagName('h4')[0].textContent.toLowerCase();
+                var productCategory = products[i].getAttribute('data-category').toLowerCase();
+
+                if (productName.includes(searchValue) && (categoryValue === '' || productCategory === categoryValue)) {
+                    products[i].style.display = '';
+                } else {
+                    products[i].style.display = 'none';
+                }
+            }
+        }
+        function addToCart(button,productName, productPrice) {
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+    let productIndex = cart.findIndex(item => item.name === productName);
+
+    if (productIndex !== -1) {
+        cart[productIndex].quantity += 1;
+    } else {
+        let product = {
+            name: productName,
+            price: productPrice,
+            quantity: 1
+        };
+        cart.push(product);
+    }
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    button.disabled=true;
+    button.innerHTML='✔';
+    setTimeout(()=>{
+        button.innerHTML='Add to Cart';
+        button.disabled=false;
+    },2000);
+}
+function logout() {
+            sessionStorage.clear();
+            window.location.href = 'logout.php';
+        }
+    </script>    
+</body>
+
+</html>

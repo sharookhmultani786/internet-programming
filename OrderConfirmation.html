@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Growcery</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f3;
+        }
+    
+        .navbar {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+    
+        .navbar a:hover {
+            background: #4a6078;
+            color: #fff;
+            border-radius: 5px;
+        }
+    
+        .confirmation-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+    
+        .confirmation-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #27ae60;
+            font-weight: 700;
+        }
+    
+        .confirmation-message {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #555;
+        }
+    
+        .order-summary {
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        .order-summary h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2d3e50;
+        }
+    
+        .order-summary table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+    
+        .order-summary th, .order-summary td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+    
+        .order-summary th {
+            background-color: #2d3e50;
+            color: white;
+        }
+    
+        .order-summary .total {
+            font-weight: bold;
+            font-size: 1.2em;
+            padding-top: 10px;
+            color: #27ae60;
+        }
+    
+        .order-details {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    
+        .order-details h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #2d3e50;
+        }
+    
+        .order-details p {
+            font-size: 1.1em;
+            margin: 5px 0;
+            color: #555;
+        }
+    
+        .footer {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+    
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 15px;
+            }
+    
+            .order-summary {
+                padding: 15px;
+            }
+    
+            .order-details {
+                padding: 15px;
+            }
+        }
+    </style>
+    
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="homepage.php">Home</a>
+        <a href="products.php">Products</a>
+        <a href="About.html">About Us</a>
+        <a href="Contact.html">Contact Us</a>
+        <a href="cart.php">Cart</a>
+        <a href="profile.php">Profile</a>
+        <a href="displayorders.php">Orders</a>
+    </div>
+
+    <div class="confirmation-container">
+        <h1 class="confirmation-title">Order Confirmation</h1>
+
+        <p class="confirmation-message">Thank you for your purchase! Your order has been successfully placed. You will receive a confirmation email shortly.</p>
+
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTable">
+                </tbody>
+            </table>
+            <div class="total">
+                <p id="totalPrice">Total Price: ₹0.00</p>
+            </div>
+        </div>
+
+        <div class="order-details">
+            <h3>Shipping Details</h3>
+            <p><strong>Name:</strong> <span id="shippingName"></span></p>
+            <p><strong>Shipping Address:</strong> <span id="shippingAddress"></span></p>
+            <p><strong>Shipping Method:</strong> <span id="shippingMethod"></span></p>
+            <p><strong>Shipping Method:</strong> <span id="smobile"></span></p>
+        </div>
+
+        <div class="order-details">
+            <h3>Next Steps</h3>
+            <p>Your order is being processed and will be shipped soon. You will receive an email with tracking details once your package is on its way.</p>
+            <p>If you have any questions, feel free to <a href="#">contact us</a>.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Growcery. All rights reserved.</p>
+        <p>Follow us on social media: Facebook | Twitter | Instagram</p>
+    </div>
+
+    <script>
+        function loadOrderDetails() {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            const billingInfo = JSON.parse(sessionStorage.getItem('billingInfo')) || {};
+            const shippingInfo = JSON.parse(sessionStorage.getItem('shippingInfo')) || {};
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            const orderTable = document.getElementById('orderTable');
+            orderTable.innerHTML = cart.map(item => `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>₹${item.price.toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td>₹${(item.price * item.quantity).toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('totalPrice').innerText = `Total Price: ₹${total.toFixed(2)}`;
+
+            document.getElementById('shippingName').innerText = billingInfo.fullName || 'Login to See';
+            document.getElementById('shippingAddress').innerText = shippingInfo.address || 'Login to See';
+            document.getElementById('shippingMethod').innerText = shippingInfo.method || 'Login to See';
+            document.getElementById('smobile').innerText = shippingInfo.smobile || 'Login to See';
+            sessionStorage.removeItem('cart');
+        }
+        window.onload = loadOrderDetails;
+        setTimeout(function(){alert("Redirecting to HomePage");window.location.href="homepage.php";},10000);
+    </script>
+</body>
+
+</html>

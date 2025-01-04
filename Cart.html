@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Growcery</title>
+
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f3;
+        }
+    
+        .navbar {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+    
+        .navbar a:hover {
+            background: #4a6078;
+            color: #fff;
+            border-radius: 5px;
+        }
+    
+        .cart-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+    
+        .cart-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2d3e50;
+            font-weight: 700;
+        }
+    
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+    
+        .cart-table th, .cart-table td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    
+        .cart-table th {
+            background-color: #2d3e50;
+            color: white;
+        }
+    
+        .cart-table td button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+    
+        .cart-table td button:hover {
+            background-color: #e53935;
+        }
+    
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+    
+        .cart-summary div {
+            font-size: 1.2em;
+            color: #333;
+        }
+    
+        .cart-summary .total {
+            font-weight: bold;
+            color: #27ae60;
+        }
+    
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+    
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+    
+        .footer {
+            background: linear-gradient(90deg, #2d3e50, #4a6078);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        .logout-btn{background-color: red; margin:6px;padding:5px;border-radius:10px;margin-left:700px;}
+        @media (max-width: 768px) {
+            .cart-container {
+                padding: 15px;
+            }
+    
+            .cart-summary {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+    
+            .checkout-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>    
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="homepage.php">Home</a>
+        <a href="products.php">Products</a>
+        <a href="About.html">About Us</a>
+        <a href="Contact.html">Contact Us</a>
+        <a href="cart.php">Cart</a>
+        <a href="profile.php">Profile</a>
+        <a href="displayorders.php">Orders</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="cart-container">
+        <h1 class="cart-title">Your Shopping Cart</h1>
+
+        <table class="cart-table" id="cartTable">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <div>
+                <p>Total Items: <span id="totalItems">2</span></p>
+                <p class="total">Total Price: ₹<span id="totalPrice">5.97</span></p>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Growcery. All rights reserved.</p>
+        <p>Follow us on social media: Facebook | Twitter | Instagram</p>
+    </div>
+
+    <script>
+        function renderCart() {
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            let cartTable = document.getElementById('cartTable').getElementsByTagName('tbody')[0];
+            cartTable.innerHTML = '';
+            cart.forEach((item, index) => {
+
+                let row = cartTable.insertRow();
+
+                let cell1 = row.insertCell(0);
+                cell1.textContent = item.name;
+
+                let cell2 = row.insertCell(1);
+                cell2.textContent = item.price;
+    
+
+                let cell3 = row.insertCell(2);
+                let quantityInput = document.createElement('input');
+                quantityInput.type = 'number';
+                quantityInput.classList.add('quantity');
+                quantityInput.value = item.quantity;
+                quantityInput.min = 1;
+                quantityInput.onchange = function() { updateTotal(quantityInput, index) };
+                cell3.appendChild(quantityInput);
+    
+                let cell4 = row.insertCell(3);
+                cell4.classList.add('item-total');
+                cell4.textContent = "₹" + (item.price* item.quantity).toFixed(2);
+    
+                let cell5 = row.insertCell(4);
+                let removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = function() { removeItem(index) };
+                cell5.appendChild(removeButton);
+            });
+
+            updateCartSummary();
+        }
+    
+        function updateTotal(inputElement, index) {
+            
+            let newQuantity = parseInt(inputElement.value);
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            cart[index].quantity = newQuantity;
+            let itemprice=cart[index].price;
+
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+    
+            let totalCell = inputElement.closest('tr').querySelector('.item-total');
+            totalCell.textContent = "₹" + (itemprice * newQuantity).toFixed(2);
+            updateCartSummary();
+        }
+    
+        function updateCartSummary() {
+            let totalItems = 0;
+            let totalPrice = 0;
+    
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    
+            cart.forEach(item => {
+                totalItems += item.quantity;
+                totalPrice += item.price * item.quantity;
+            });
+    
+            document.getElementById('totalItems').textContent = totalItems;
+            document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+        }
+    
+        function removeItem(index) {
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+        }
+    
+        function checkout() {
+            alert('Proceeding to checkout...');
+            window.location.href="checkout.php";
+        }
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'logout.php';
+        }
+        window.onload = renderCart;
+    </script>    
+</body>
+
+</html>

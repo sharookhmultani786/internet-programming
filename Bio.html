@@ -1,0 +1,62 @@
+<html>
+<head>
+<style>
+body{margin-left:250px;margin-top:70px;}
+div.back{background-color:lightgrey;width:1000px;height:600px;}
+table{border-spacing:0px 10px;}
+h2{margin-left:420px;}
+form{margin-left:320px;}
+tr{width:250px;}
+td{padding-right:30px;}
+label.l1{font-size:16px;font-weight:bold;}
+select{width:200px;}
+td.t1 button{margin-left:70px;}
+</style>
+</head>
+<body>
+<div class="back">
+<br><br><h2>BIO-DATA</h2><br>
+<form action="Edu.html" method="post">
+<table>
+<tr>
+<td><label class="l1">Name</label></td>
+<td><input type="text" name="user"></td>
+</tr>
+<tr>
+<td><label class="l1">DOB</label></td>
+<td><input type="text" name="dob"></td>
+</tr>
+<tr>
+<td><label class="l1">Gender</label></td>
+<td>
+<input type="radio" name="gender" value="male"><label class="l2">Male</label>
+<input type="radio" name="gender" value="female"><label class="l2">Female</label>
+<input type="radio" name="gender" value="male"><label class="l2">Transgender</label></td>
+</tr>
+<tr>
+<td><label class="l1">Occupation</label></td>
+<td>
+<select name="occupation">
+<option value=""></option>
+<option value="self-employed">Self-Employed</option>
+<option value="bussiness">Business</option>
+</select>
+</td>
+</tr>
+<tr>
+<td><label class="l1">Hobbies</label></td>
+<td>
+<div class="d2"><input type="checkbox" name="hobbies" value="reading"><label class="l2">Reading</label></div>
+<div class="d2"><input type="checkbox" name="hobbies" value="cooking"><label class="l2">Cooking</label></div>
+<div class="d2"><input type="checkbox" name="hobbies" value="playing"><label class="l2">Playing</label></div>
+</tr>
+</td>
+<tr>
+<td class="t1"><button type="submit">Submit</button></td>
+<td class="t1"><a href="Bio.html"><input type="button" value="Cancel"></a></td>
+</tr>
+</table>
+</form>
+</div>
+</body>
+</html>
